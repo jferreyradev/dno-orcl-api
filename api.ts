@@ -1,5 +1,5 @@
 import {Hono} from 'npm:hono'
-import { init, closePoolAndExit, dostuff } from './orcldb.ts'
+import { init, closePoolAndExit, dostuff, execsql } from './orcldb.ts'
 
 const app = new Hono()
 
@@ -17,8 +17,20 @@ app.use("*", async (c, next) => {
 
 app.get('/', async (c) => {
     await dostuff()
-  return c.text('Hello Hono!')
+  return c.text('API Pruebas!')
 })
+
+app.get('/exec', async (c)=>{
+  const r = await execsql(`SELECT * FROM USUARIO.TABTIPOLIQUIDACION`)
+  //(console.log(r.rows)
+  return c.json(r.rows)
+})
+
+Deno.addSignalListener("SIGINT", async () => {
+  console.log("interrupted!");
+  await closePoolAndExit()
+  Deno.exit();
+});
 
 Deno.serve(app.fetch)
 
