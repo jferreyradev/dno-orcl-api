@@ -1,5 +1,6 @@
 import {Hono} from 'npm:hono'
 import { init, closePoolAndExit, dostuff, execsql } from './orcldb.ts'
+import { cors } from 'hono/cors'
 
 const app = new Hono()
 
@@ -7,6 +8,7 @@ const app = new Hono()
 let dbConnect = false ;
 
 // Middleware to connect to MongoDB
+app.use('/api/*', cors())
 app.use("*", async (c, next) => {
     if (!dbConnect) {
       await init();
@@ -15,13 +17,19 @@ app.use("*", async (c, next) => {
     return next();
   });
 
-app.get('/', async (c) => {
+app.get('/api', async (c) => {
     await dostuff()
   return c.text('API Pruebas!')
 })
 
-app.get('/exec', async (c)=>{
+app.get('/api/exec', async (c)=>{
   const r = await execsql(`SELECT * FROM USUARIO.TABTIPOLIQUIDACION`)
+  //(console.log(r.rows)
+  return c.json(r.rows)
+})
+
+app.get('/api/adis', async (c)=>{
+  const r = await execsql(`SELECT * FROM USUARIO.LIQUIDACION WHERE IDTIPOLIQUIDACION = 5 and fechaemision = usuario.f_Activo and idgrupo = 1`)
   //(console.log(r.rows)
   return c.json(r.rows)
 })

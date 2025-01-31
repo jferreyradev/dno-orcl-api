@@ -1,0 +1,21 @@
+{
+  "version": "4",
+  "specifiers": {
+    "npm:hono@*": "4.6.20",
+    "npm:hono@^4.6.20": "4.6.20",
+    "npm:oracledb@6.0.2": "6.0.2"
+  },
+  "npm": {
+    "hono@4.6.20": {
+      "integrity": "sha512-5qfNQeaIptMaJKyoJ6N/q4gIq0DBp2FCRaLNuUI3LlJKL4S37DY/rLL1uAxA4wrPB39tJ3s+f7kgI79O4ScSug=="
+    },
+    "oracledb@6.0.2": {
+      "integrity": "sha512-d87rreuIyVNkS7n1qw54rPpl6qoTAsh65NAza2ZkuqAzNfSkhdGaeA0cRTYKdvp1TGRO7VQXvmUkpcz1cKpI9Q=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:hono@^4.6.20"
+    ]
+  }
+}
